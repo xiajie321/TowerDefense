@@ -13,6 +13,8 @@ public class UIManager : MonoBehaviour
     GameObject LsGameObject;//临时存储对象
     public GameObject UIPlayGameMenu;//游戏开始菜单
     public GameObject UIPlayMenu;//开始后的菜单
+    public List<Transform> UISelects; //SelectUI下的所有子对象
+    public GameObject UISelect;
     void Start()
     {
         instance = this;
@@ -22,6 +24,14 @@ public class UIManager : MonoBehaviour
             UIPlayGameMenu = LsGameObject.transform.Find("UIPlayGameMenu").gameObject; 
             //通过存储在LsGameObject中的对象去获取其子对象并赋予UIPlayGameMenu以下同理
             UIPlayMenu = LsGameObject.transform.Find("UIPlayMenu").gameObject;
+            UISelect = LsGameObject.transform.Find("Select").gameObject;
+            foreach (Transform go in LsGameObject.transform.Find("Select").GetComponentsInChildren<Transform>())
+            {
+                if (!go.name.Equals("Select"))
+                {
+                    UISelects.Add(go);
+                }
+            }
             UIPlayGameMenu.transform.Find("Play").GetComponent<Button>().onClick.AddListener(() =>
             {
                 PlayManager.instance.PlayGame();
